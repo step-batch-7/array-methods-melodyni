@@ -21,22 +21,12 @@ Bool compare(Array *src_a,Array *src_b){
   return status;
 }
 
-Array *fill_array(Array *src,int list[], int array_length){
-  for(int i = 0; i< array_length; i++){
-    src->array[i] = list[i];
-  }
-  return src;
-}
-
-Array *create_array(int list[], int array_length){
-  Array *src = init_array(3);
-  return fill_array(src,list,array_length);
-}
-
 Array *map(Array *src, Mapper mapper){
   int list[src->length];
   for(int i= 0; i < src->length; i++){
     list[i] = (* mapper)(src->array[i]);
   }
-  return create_array(list,src->length);
+  Array *result = init_array(src->length);
+  memcpy(result->array,list,src->length);
+  return result;
 }

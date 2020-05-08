@@ -3,6 +3,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 typedef enum
 {
   False,
@@ -25,5 +26,5 @@ Array *filter(Array *src, Predicate predicate);
 int reduce(Array *src, int init, Reducer reducer);
 
 Bool compare(Array *array_a,Array *array_b);
-Array *create_array(int list[], int array_length);
+Array *init_array(int array_length);
 #endif
