@@ -27,6 +27,21 @@ Array *map(Array *src, Mapper mapper){
     list[i] = (* mapper)(src->array[i]);
   }
   Array *result = init_array(src->length);
-  memcpy(result->array,list,src->length);
+  memcpy(result->array,list,src->length * sizeof(int));
+  return result;
+}
+
+Array *filter(Array *src, Predicate predicate){
+  int list[src->length];
+  int filter_count = 0;
+  for(int i=0; i< src->length;i++){
+    Bool status = (*predicate)(src->array[i]);
+    if(status){
+      list[filter_count] = src->array[i];
+      filter_count++;
+    }
+  }
+  Array *result = init_array(filter_count);
+  memcpy(result->array, list, filter_count * sizeof(int)); 
   return result;
 }
