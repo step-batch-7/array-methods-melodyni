@@ -45,3 +45,10 @@ Array *filter(Array *src, Predicate predicate){
   memcpy(result->array, list, filter_count * sizeof(int)); 
   return result;
 }
+
+int reduce(Array *src ,int init, Reducer reducer){
+  for(int i=0; i< src->length;i++){
+    init = (*reducer)(src->array[i], init);
+  }
+  return init;
+}
