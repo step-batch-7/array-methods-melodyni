@@ -31,17 +31,19 @@ void test_map(){
   printf("\nmap\n");
   int list[3] = {2,3,4};
   int expected_list[3] = {3,4,5};
-
   Array *array = init_array(3);
-  memcpy(array->array,list,3);
-
   Array *expected = init_array(3);
+  memcpy(array->array,list,3);
   memcpy(expected->array,expected_list,3);
-
   Array *actual = map(array, &increment);
-  char message[] = "should increment each element in the given list by one";
+  char message[] = "should map list with numbers";
   print_result(compare(expected,actual),message);
 
+  Array *array2 = init_array(0);
+  Array *expected2 = init_array(0);
+  Array *actual2 = map(array2, &increment);
+  char message2[] = "should map and empty array ";
+  print_result(compare(expected2,actual2),message2);
 
 }
 
