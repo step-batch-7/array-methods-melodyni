@@ -8,17 +8,15 @@ Array *init_array(array_length){
 }
 
 Bool compare(Array *src_a,Array *src_b){
-  Bool status = True;
-  int *array_a = src_a->array ;
   if(src_a->length != src_b->length){
     return False;
   }
   for(int i= 0; i < src_a->length; i++){
     if(src_a->array[i] != src_b->array[i]){
-      status = False;
+      return False;
     }
   }
-  return status;
+  return True;
 }
 
 Array *map(Array *src, Mapper mapper){

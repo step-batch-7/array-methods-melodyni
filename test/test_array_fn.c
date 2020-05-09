@@ -1,4 +1,5 @@
 #include "../array.h"
+#include "../array_void.h"
 
 void green(){
   printf("\033[1;30m");
@@ -37,6 +38,33 @@ Bool is_odd(int num){
 int add(int num_a, int num_b ) {
   return num_a + num_b;
 }
+
+Object increment_by_1(Object data){
+  Object num = malloc(sizeof(Object));
+  int number = (*(int *)data) + 1;
+  memcpy(num, &number, sizeof(int));
+  return num;
+}
+
+Object convert_to_lower(Object data){
+  Object lower_char = malloc(sizeof(Object));
+  char letter = tolower(*(char *)data);
+  memcpy(lower_char, &letter , sizeof(char));
+  return lower_char;
+}
+
+Bool are_char_equal(Object data_a, Object data_b){
+  char a = *(char *)data_a;
+  char b = *(char *)data_b;
+  return a == b;
+}
+
+Bool are_int_equal(Object data_a, Object data_b){
+  int a = *(int *)data_a;
+  int b = *(int *)data_b;
+  return a == b;
+}
+
 
 void test_map(){
   printf("\nmap\n");
@@ -93,11 +121,36 @@ void test_reduce(){
   print_result(result2 == 30, message2);
 }
 
+void test_map_void(){
+  printf("\nmap_void\n");
+  char message[] = "should convert all letter in list to its lower case";
+  char char1 = 'A';
+  char char2 = 'B';
+  char char3 = 'C';
+  ArrayVoid_ptr array_void = init_array_void(3);
+  array_void->array[0] = &char1;
+  array_void->array[1] = &char2;
+  array_void->array[2] = &char3;
+
+  char char4 = 'a';
+  char char5 = 'b';
+  char char6 = 'c';
+  ArrayVoid_ptr expected = init_array_void(3);
+  expected->array[0] = &char4;
+  expected->array[1] = &char5;
+  expected->array[2] = &char6;
+
+  ArrayVoid_ptr mapped_array = map_void(array_void, &convert_to_lower);
+  Bool res = compare_array_void(expected,mapped_array,&are_char_equal);
+  print_result(res,message);
+}
+
 
 int main()
 {
   test_map();
   test_filter();
   test_reduce();
+  test_map_void();
   return 0;
 }
