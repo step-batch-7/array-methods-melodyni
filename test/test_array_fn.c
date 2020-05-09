@@ -53,6 +53,13 @@ Object convert_to_lower(Object data){
   return lower_char;
 }
 
+Bool is_vowel(Object data){
+  char ch = *(char *)data;
+  Bool is_lower_vowel = ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ;
+  Bool is_upper_vowel = ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' ;
+  return is_upper_vowel || is_lower_vowel;
+}
+
 Bool are_char_equal(Object data_a, Object data_b){
   char a = *(char *)data_a;
   char b = *(char *)data_b;
@@ -146,11 +153,35 @@ void test_map_void(){
 }
 
 
+void test_filter_void(){
+  printf("\nfilter_void\n");
+  char message[] = "should filter vowels in the list";
+  char char1 = 'A';
+  char char2 = 'B';
+  char char3 = 'E';
+  ArrayVoid_ptr array_void = init_array_void(3);
+  array_void->array[0] = &char1;
+  array_void->array[1] = &char2;
+  array_void->array[2] = &char3;
+
+  char char4 = 'A';
+  char char5 = 'E';
+  ArrayVoid_ptr expected = init_array_void(2);
+  expected->array[0] = &char4;
+  expected->array[1] = &char5;
+
+  ArrayVoid_ptr actual = filter_void(array_void, &is_vowel);
+  Bool res = compare_array_void(expected,actual,&are_char_equal);
+  print_result(res,message);
+}
+
+
 int main()
 {
   test_map();
   test_filter();
   test_reduce();
   test_map_void();
+  test_filter_void();
   return 0;
 }

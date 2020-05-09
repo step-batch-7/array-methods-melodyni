@@ -28,3 +28,18 @@ ArrayVoid_ptr map_void(ArrayVoid_ptr src, MapperVoid mapper){
   memcpy(array_void->array, list ,sizeof(Object)*src->length);
   return array_void;
 }
+
+ArrayVoid_ptr filter_void(ArrayVoid_ptr src, PredicateVoid predicate){
+  Object list[src->length];
+  int filter_count = 0;
+  for(int i=0; i< src->length;i++){
+    Bool status = (*predicate)(src->array[i]);
+    if(status){
+      list[filter_count] = src->array[i];
+      filter_count++;
+    }
+  }
+  ArrayVoid_ptr array_void = init_array_void(filter_count);
+  memcpy(array_void->array, list ,sizeof(Object)*filter_count);
+  return array_void;
+}
