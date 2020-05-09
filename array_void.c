@@ -43,3 +43,10 @@ ArrayVoid_ptr filter_void(ArrayVoid_ptr src, PredicateVoid predicate){
   memcpy(array_void->array, list ,sizeof(Object)*filter_count);
   return array_void;
 }
+
+Object reduce_void(ArrayVoid_ptr src, Object init, ReducerVoid reducer){
+  for(int i=0; i< src->length;i++){
+    init = (*reducer)(src->array[i], init);
+  }
+  return init;
+}

@@ -53,6 +53,15 @@ Object convert_to_lower(Object data){
   return lower_char;
 }
 
+Object add_void(Object data_a, Object data_b){
+  Object sum_ptr = malloc(sizeof(Object));
+  int num_a = *(int *)data_a;
+  int num_b = *(int *)data_b;
+  int sum = num_a + num_b;
+  memcpy(sum_ptr, &sum , sizeof(char));
+  return sum_ptr;
+}
+
 Bool is_vowel(Object data){
   char ch = *(char *)data;
   Bool is_lower_vowel = ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ;
@@ -173,6 +182,39 @@ void test_filter_void(){
   ArrayVoid_ptr actual = filter_void(array_void, &is_vowel);
   Bool res = compare_array_void(expected,actual,&are_char_equal);
   print_result(res,message);
+
+  char message2[] = "should filter empty list ";
+  ArrayVoid_ptr array_void2 = init_array_void(0);
+  ArrayVoid_ptr expected2 = init_array_void(0);
+
+  ArrayVoid_ptr actual2 =  filter_void(array_void2, &is_vowel);
+  Bool res2 = compare_array_void(expected2,actual2,&are_char_equal);
+  print_result(res2,message2);
+  
+}
+
+void test_reduce_void(){
+  printf("\nreduce_void\n");
+  char message[] = "should add all numbers in the list with the initial value";
+  char num1 = 10;
+  char num2 = 20;
+  char num3 = 30;
+  ArrayVoid_ptr array_void = init_array_void(3);
+  array_void->array[0] = &num1;
+  array_void->array[1] = &num2;
+  array_void->array[2] = &num3;
+
+  int init = 40;
+  
+  char message2[] = "should return init value for empty list";
+  Object actual = reduce_void(array_void, &init ,&add_void);
+  print_result((*(int *)actual) == 100, message);
+  ArrayVoid_ptr array_void2 = init_array_void(0);
+
+  int init2 = 40;
+  
+  Object actual2 = reduce_void(array_void2, &init2 ,&add_void);
+  print_result((*(int *)actual2) == 40, message2);
 }
 
 
@@ -183,5 +225,6 @@ int main()
   test_reduce();
   test_map_void();
   test_filter_void();
+  test_reduce_void();
   return 0;
 }
