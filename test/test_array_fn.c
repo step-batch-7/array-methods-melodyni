@@ -62,6 +62,11 @@ Object add_void(Object data_a, Object data_b){
   return sum_ptr;
 }
 
+Bool is_odd_num(Object data){
+  int num = *(int *)data;
+  return num % 2 != 0;
+}
+
 Bool is_vowel(Object data){
   char ch = *(char *)data;
   Bool is_lower_vowel = ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' ;
@@ -159,6 +164,37 @@ void test_map_void(){
   ArrayVoid_ptr mapped_array = map_void(array_void, &convert_to_lower);
   Bool res = compare_array_void(expected,mapped_array,&are_char_equal);
   print_result(res,message);
+
+
+ char message2[] = "should increment all numbers in list by 1";
+  int num1 = 1;
+  int num2 = 2;
+  int num3 = 3;
+  ArrayVoid_ptr array_void2 = init_array_void(3);
+  array_void2->array[0] = &num1;
+  array_void2->array[1] = &num2;
+  array_void2->array[2] = &num3;
+
+  int num4 = 2;
+  int num5 = 3;
+  int num6 = 4;
+  ArrayVoid_ptr expected2 = init_array_void(3);
+  expected2->array[0] = &num4;
+  expected2->array[1] = &num5;
+  expected2->array[2] = &num6;
+
+  ArrayVoid_ptr mapped_array2 = map_void(array_void2, &increment_by_1);
+  Bool res2 = compare_array_void(expected2,mapped_array2,&are_int_equal);
+  print_result(res2,message2);
+
+
+  char message3[] = "should map empty list ";
+  ArrayVoid_ptr array_void3 = init_array_void(0);
+  ArrayVoid_ptr expected3 = init_array_void(0);
+
+  ArrayVoid_ptr actual3 =  map_void(array_void3, &increment_by_1);
+  Bool res3 = compare_array_void(expected3,actual3,&are_char_equal);
+  print_result(res3,message3);
 }
 
 
@@ -183,14 +219,35 @@ void test_filter_void(){
   Bool res = compare_array_void(expected,actual,&are_char_equal);
   print_result(res,message);
 
-  char message2[] = "should filter empty list ";
-  ArrayVoid_ptr array_void2 = init_array_void(0);
-  ArrayVoid_ptr expected2 = init_array_void(0);
+  char message2[] = "should filter odd numbers in list";
+  int num1 = 1;
+  int num2 = 2;
+  int num3 = 3;
+  int num4 = 4;
+  ArrayVoid_ptr array_void2 = init_array_void(4);
+  array_void2->array[0] = &num1;
+  array_void2->array[1] = &num2;
+  array_void2->array[2] = &num3;
+  array_void2->array[3] = &num4;
 
-  ArrayVoid_ptr actual2 =  filter_void(array_void2, &is_vowel);
-  Bool res2 = compare_array_void(expected2,actual2,&are_char_equal);
+  int num5 = 1;
+  int num6 = 3;
+  ArrayVoid_ptr expected2 = init_array_void(2);
+  expected2->array[0] = &num5;
+  expected2->array[1] = &num6;
+
+  ArrayVoid_ptr mapped_array2 = filter_void(array_void2, &is_odd_num);
+  Bool res2 = compare_array_void(expected2,mapped_array2,&are_int_equal);
   print_result(res2,message2);
-  
+
+  char message3[] = "should filter empty list ";
+  ArrayVoid_ptr array_void3 = init_array_void(0);
+  ArrayVoid_ptr expected3 = init_array_void(0);
+
+  ArrayVoid_ptr actual3 =  filter_void(array_void3, &is_vowel);
+  Bool res3 = compare_array_void(expected3,actual3,&are_char_equal);
+  print_result(res3,message3);
+
 }
 
 void test_reduce_void(){
